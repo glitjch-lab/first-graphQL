@@ -15,7 +15,7 @@ const resolvers = {
   },
   Mutation: {
 
-    post: (parent, args) => {
+    createLink: (parent, args) => {
 
       let idCount = links.length;
 
@@ -26,7 +26,31 @@ const resolvers = {
         }
         links.push(link)
         return link
-    }
+    },
+
+    updateLink: (parent, args) => {
+      const updatedLink = {
+        id: args.id,
+        url: args.url,
+        description: args.description,
+      };
+      links.forEach(link => {
+        if (link.id === updatedLink.id) {
+          link.url = updatedLink.url
+          link.description = updatedLink.description
+        } 
+      })
+      return updatedLink;
+    },
+
+    deleteLink: (parent, args) => {
+      const updated = links.filter(link => {
+        link.id !== args.id
+      })
+      links.length = 0;
+      links.push(updated);
+      return links;
+    },
   },
 }
 
